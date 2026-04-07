@@ -1,31 +1,30 @@
 #include <iostream>
-#include <vector>
+#include <list>
 #include <iterator>
-#include <algorithm>
 
 int main() {
-    std::vector<int> V;
-    std::cout << "Введите элементы вектора (для окончания ввода нажмите Ctrl+Z или введите не число): ";
-    std::copy(std::istream_iterator<int>(std::cin),
-              std::istream_iterator<int>(),
-              std::back_inserter(V));
+    std::list<int> L;
+    int n, value;
 
-    if (V.empty()) {
-        std::cout << "Вектор пуст!" << std::endl;
-        return 0;
+    std::cout << "Enter number of elements: ";
+    if (!(std::cin >> n)) return 1;
+
+    std::cout << "Enter " << n << " elements: ";
+    for (int k = 0; k < n; ++k) {
+        std::cin >> value;
+        L.push_back(value);
     }
-
-    for (auto i = V.begin(); i != V.end(); ++i) {
-        i = V.erase(i);
-        if (i == V.end()) {
+    for (auto i = L.begin(); i != L.end(); ) {
+        auto next_it = i;
+        if (++next_it != L.end()) {
+            i = L.erase(next_it);
+        } else {
             break;
         }
     }
-
-    // Вывод результата
-    std::cout << "Результат после удаления элементов с нечетными номерами: ";
-    for (int val : V) {
-        std::cout << val << " ";
+    std::cout << "Resulting list: ";
+    for (auto it = L.begin(); it != L.end(); ++it) {
+        std::cout << *it << " ";
     }
     std::cout << std::endl;
 
