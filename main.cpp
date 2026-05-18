@@ -1,31 +1,27 @@
 #include <iostream>
 #include <list>
 #include <iterator>
+#include <algorithm>
 
 int main() {
-    std::list<int> L;
-    int n, value;
+    size_t n = 0; 
 
     std::cout << "Enter number of elements: ";
     if (!(std::cin >> n)) return 1;
 
+    std::list<int> L;
     std::cout << "Enter " << n << " elements: ";
-    for (int k = 0; k < n; ++k) {
-        std::cin >> value;
-        L.push_back(value);
-    }
-    for (auto i = L.begin(); i != L.end(); ) {
-        auto next_it = i;
-        if (++next_it != L.end()) {
-            i = L.erase(next_it);
-        } else {
-            break;
-        }
-    }
+    std::copy_n(std::istream_iterator<int>(std::cin), n, std::back_inserter(L));
+    std::list<int> result;
+    size_t index = 1; 
+    std::copy_if(L.begin(), L.end(), std::back_inserter(result), [&index](int) {
+        return (index++ % 2) != 0; 
+    });
+    L = std::move(result);
+
     std::cout << "Resulting list: ";
-    for (auto it = L.begin(); it != L.end(); ++it) {
-        std::cout << *it << " ";
-    }
+
+    std::copy(L.begin(), L.end(), std::ostream_iterator<int>(std::cout, " "));
     std::cout << std::endl;
 
     return 0;
