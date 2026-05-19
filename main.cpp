@@ -5,19 +5,15 @@
 
 int main() {
     std::list<int> L;
-    
-    std::cout << "Ввод элементов: ";
-    
+
+    std::cout << "Введите элементы: ";
     std::copy(std::istream_iterator<int>(std::cin), 
               std::istream_iterator<int>(), 
               std::back_inserter(L));
 
-    std::list<int> result;
-    size_t index = 1; 
-    std::copy_if(L.begin(), L.end(), std::back_inserter(result), [&index](int) {
-        return (index++ % 2) != 0; 
-    });
-    L = std::move(result);
+    for (auto i = L.begin(); i != L.end(); ++i) {
+        L.insert(i, -1); 
+    }
 
     std::cout << "Resulting list: ";
     std::copy(L.begin(), L.end(), std::ostream_iterator<int>(std::cout, " "));
