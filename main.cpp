@@ -4,14 +4,14 @@
 #include <algorithm>
 
 int main() {
-    size_t n = 0; 
-
-    std::cout << "Enter number of elements: ";
-    if (!(std::cin >> n)) return 1;
-
     std::list<int> L;
-    std::cout << "Enter " << n << " elements: ";
-    std::copy_n(std::istream_iterator<int>(std::cin), n, std::back_inserter(L));
+    
+    std::cout << "Ввод элементов: ";
+    
+    std::copy(std::istream_iterator<int>(std::cin), 
+              std::istream_iterator<int>(), 
+              std::back_inserter(L));
+
     std::list<int> result;
     size_t index = 1; 
     std::copy_if(L.begin(), L.end(), std::back_inserter(result), [&index](int) {
@@ -20,7 +20,6 @@ int main() {
     L = std::move(result);
 
     std::cout << "Resulting list: ";
-
     std::copy(L.begin(), L.end(), std::ostream_iterator<int>(std::cout, " "));
     std::cout << std::endl;
 
